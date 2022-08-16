@@ -1,0 +1,13 @@
+apiVersion: v1 
+kind: ConfigMap 
+metadata:
+  name: emr-search-engine 
+  #namespace: csp-development 
+data: 
+  PORT: @{PORT}@
+  SEARCHENGINE_DB: "Personalization"
+  SEARCHENGINE_CONNECTIONSTRING: "@{SEARCHENGINE-CONNECTIONSTRING}@"
+  LOGLEVEL: "@{logLevel}@"
+  #PORT: 3001
+  #SEARCHENGIN-CONNECTIONSTRING: "mongodb://personasrw:PerSonas_213123@20.198.87.28:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false"
+  #PORT: Error

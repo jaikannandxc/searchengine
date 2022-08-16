@@ -1,0 +1,80 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: emr-search-engine
+  namespace: csp-development
+spec:
+  maxReplicas: 2
+  minReplicas: 2
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: emr-search-engine
+  targetCPUUtilizationPercentage: 40
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: emr-search-engine
+  namespace: csp-development
+spec:
+  selector:
+    app: emr-search-engine
+  type: NodePort
+  ports:
+  - name: emr-search-engine
+    protocol: TCP
+    port: 3001
+    nodePort: 320010
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+
+  name: emr-search-engine
+  namespace: csp-development
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: emr-search-engine
+  template:
+    metadata:
+      labels:
+        app: emr-search-engine
+    spec:
+      containers:
+      - name: emr-search-engine
+        image: ${azcontainerregistryname}/${imagename_emrsearchservice}:${buildversion}
+        imagePullPolicy: Always
+        env: 
+        - name: PORT
+          valueFrom: 
+            configMapKeyRef: 
+              name: emr-search-engine 
+              key: PORT
+        - name: SEARCHENGINE_DB 
+          valueFrom: 
+            configMapKeyRef: 
+              name: emr-search-engine 
+              key: SEARCHENGINE_DB  
+        - name: SEARCHENGINE_CONNECTIONSTRING 
+          valueFrom: 
+            configMapKeyRef: 
+              name: emr-search-engine 
+              key: SEARCHENGINE_CONNECTIONSTRING
+        - name: LOGLEVEL 
+          valueFrom: 
+            configMapKeyRef: 
+              name: emr-search-engine 
+              key: LOGLEVEL    
+        resources:
+          limits:
+            memory: "200Mi"
+            cpu: "0.020"
+          requests:
+            memory: "200Mi"
+            cpu: "0.020"
+        ports:
+        - name: emr-search-engine
+          containerPort: 3001

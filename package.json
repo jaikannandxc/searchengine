@@ -1,0 +1,28 @@
+{
+  "name": "emr-searchengine",
+  "version": "1.0.0",
+  "description": "emr search engine",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "NA"
+  },
+  "keywords": [
+    "searchengine"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^3.2.3",
+    "body-parser": "^1.19.1",
+    "dotenv": "^11.0.0",
+    "express": "^4.17.2",
+    "http-server": "^14.1.0",
+    "log4js": "^6.4.1",
+    "mongodb": "^4.3.0",
+    "save": "^2.4.0"
+  }
+}
